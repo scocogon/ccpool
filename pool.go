@@ -4,12 +4,14 @@ import (
 	"context"
 )
 
-func NewPool(ctx context.Context, size int32, fn FnCall) Pool {
+type FnCall func(context.Context)
+
+func NewPool(ctx context.Context, size int, fn FnCall) Pool {
 	p := newPool(ctx, size, nil)
-	p.fn = func(ctx context.Context, _ interface{}) (error, interface{}) {
+	p.fn = func(ctx context.Context, _ interface{}) interface{} {
 		fn(ctx)
 		p.wg.Done()
-		return nil, nil
+		return nil
 	}
 
 	return p

@@ -2,6 +2,9 @@ package ccpool
 
 type _pool interface {
 	Serve()
+
+	Wait()
+	Stop()
 }
 
 type Pool interface {
@@ -14,4 +17,6 @@ type ArgPool interface {
 
 type ResultArgPool interface {
 	_pool
+
+	Invoke(arg interface{}) (err error, result interface{})
 }
